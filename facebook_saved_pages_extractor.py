@@ -13,6 +13,7 @@ import pandas as pd
 
 cookie = '' #paste your fb connection cookie here 
 collection_token = '' #paste your fb collection token here 
+excel_filename = '~/facebook_links.xlsx'
 
 headers = {
     'cookie': cookie,
@@ -40,9 +41,8 @@ def update_cursor(params, cursor):
     return params
 
     
-response_texts = []
+
 results = []
-params_list = []
 cursor = ''
 cnt = 0
 response = requests.get('https://www.facebook.com/saved/more/', headers=headers, params=params)
@@ -50,7 +50,6 @@ response = requests.get('https://www.facebook.com/saved/more/', headers=headers,
 while True: 
     print results[-12:]
     cnt+=1
-    response_texts.append(response.text)
     x= response.text.replace('\\\\',"""\\""")
 
     parsed = json.loads(response.text[9:])
@@ -78,11 +77,9 @@ while True:
         response = requests.get('https://www.facebook.com/saved/more/', headers=headers, 
                                  params=new_params)
         
-        params_list.append(new_params)
 
 
 df = DataFrame(results,columns=['title','link'])
-excel_filename = '/root/data3/facebook_links.xlsx'
 
 writer = pd.ExcelWriter(excel_filename)
 df.to_excel(writer,'Sheet1')
