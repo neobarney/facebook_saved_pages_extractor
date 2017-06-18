@@ -48,7 +48,6 @@ cnt = 0
 response = requests.get('https://www.facebook.com/saved/more/', headers=headers, params=params)
    
 while True: 
-    print results[-12:]
     cnt+=1
     x= response.text.replace('\\\\',"""\\""")
 
